@@ -1,0 +1,94 @@
+table {
+  display: inline-table;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 0;
+}
+
+td > div {
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.outside > div {
+  color: #888;
+}
+.selected > div {
+  background: #19d4ae;
+  color: #fff;
+}
+.pending > div {
+  background: #ddd;
+}
+.selected.pending > div {
+  background: #c2f4e9
+}
+
+.vc__day > div {
+  width: 36px;
+}
+
+.vc__week > div {
+  width: 200px;
+}
+
+.vc__month > div {
+  width: 48px;
+}
+
+.vc__calendar-day,
+.vc__calendar-month {
+  .selected-start,
+  .pending-start,
+  .selected-start.pending-start.selected.pending {
+    > div {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+  }
+  .selected-end,
+  .pending-end,
+  .selected-end.pending-end.selected.pending {
+    > div {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
+}
+
+.vc__calendar-week {
+  .selected-start,
+  .pending-start,
+  .selected-start.pending-start.selected.pending {
+    > div {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+  }
+  .selected-end,
+  .pending-end,
+  .selected-end.pending-end.selected.pending {
+    > div {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
+}
+
+.selected.pending-start,
+.selected.pending-end,
+.pending.selected-start,
+.pending.selected-end {
+  > div {
+    border-radius: 0;
+  }
+}
+
+.disabled > div {
+  color: #ccc;
+  cursor: not-allowed;
+}

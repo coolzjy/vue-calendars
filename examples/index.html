@@ -1,0 +1,226 @@
+<html>
+  <title>Vue Calendars</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+  <style>
+  body {
+    text-align: center;
+  }
+  </style>
+  <script src="https://shadow.elemecdn.com/npm/vue@latest/dist/vue.min.js"></script>
+  <script>
+  var exports = {}
+  var VueCalendars = exports
+  </script>
+  <script src="../dist/index.common.js"></script>
+  <h1>Vue Calendars</h1>
+  <div id="single">
+    <h2>单选</h2>
+    <day
+      :month="now"
+      :filter="filter"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </day>
+    <week
+      :month="now"
+      :filter="filter"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </week>
+    <month
+      :year="now"
+      :filter="filter"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </month>
+  </div>
+  <div id="span">
+    <h2>范围</h2>
+    <day
+      :month="now"
+      :filter="filter"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </day>
+    <week
+      :month="now"
+      :filter="filter"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </week>
+    <month
+      :year="now"
+      :filter="filter"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </month>
+  </div>
+  <div id="fixed-span">
+    <h2>固定范围</h2>
+    <day
+      :month="now"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </day>
+    <week
+      :month="now"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </week>
+    <month
+      :year="now"
+      :selected="selected"
+      :pending="pending"
+      @click="click"
+      @enter="enter"
+      @leave="leave">
+    </month>
+  </div>
+  <script>
+  const now = new Date()
+
+  Vue.component('day', VueCalendars.Day)
+  Vue.component('week', VueCalendars.Week)
+  Vue.component('month', VueCalendars.Month)
+
+  new Vue({
+    el: '#single',
+
+    data: {
+      now,
+      selected: {
+        start: now,
+        end: now
+      },
+      pending: []
+    },
+
+    methods: {
+      filter (date) {
+        return now - date > 0
+      },
+
+      click (date) {
+        this.selected = {
+          start: date,
+          end: date
+        }
+      },
+
+      enter (date) {
+        this.pending = [date, date]
+      },
+
+      leave (date) {
+        this.pending = []
+      }
+    }
+  })
+
+  new Vue({
+    el: '#span',
+
+    data: {
+      now,
+      selected: {
+        start: new Date(now.getTime() - 6 * VueCalendars.utils.ONE_DAY),
+        end: now
+      },
+      pending: []
+    },
+
+    methods: {
+      filter (date) {
+        return now - date > 0
+      },
+
+      click (date) {
+        if (!this.selecting) {
+          this.selecting = true
+        } else {
+          const pending = sort(this.pending)
+          this.selected = {
+            start: pending[0],
+            end: pending[1]
+          }
+          this.pending = []
+          this.selecting = false
+        }
+      },
+
+      enter (date) {
+        if (!this.selecting) {
+          this.pending = [date, date]
+        } else {
+          this.pending.splice(1, 1, date)
+        }
+      },
+
+      leave () {
+        if (!this.selecting) {
+          this.pending = []
+        }
+      }
+    }
+  })
+
+  const span = 13 * VueCalendars.utils.ONE_DAY
+
+  new Vue({
+    el: '#fixed-span',
+
+    data: {
+      now,
+      selected: {
+        start: new Date(now.getTime() - span),
+        end: now
+      },
+      pending: []
+    },
+
+    methods: {
+      click (date) {
+        if (this.pending.length) {
+          this.selected = {
+            start: this.pending[0],
+            end: this.pending[1]
+          }
+        }
+      },
+
+      enter (date) {
+        this.pending = [date, new Date(date.getTime() + span)]
+      },
+
+      leave () {
+        this.pending = []
+      }
+    }
+  })
+  </script>
+</html>

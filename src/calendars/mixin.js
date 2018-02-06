@@ -29,10 +29,20 @@ export default {
       const { _selected: selected, _pending: pending } = this
       const current = date.getTime()
 
-      return Object.assign({
+      const result = {
         disabled: !enabled
-      }, getClass('selected', current, selected),
-        getClass('pending', current, pending))
+      }
+
+      ;[
+        getClass('selected', current, selected),
+        getClass('pending', current, pending)
+      ].forEach(obj => {
+        for (let key in obj) {
+          result[key] = obj[key]
+        }
+      })
+
+      return result
     },
 
     enter ({ date, enabled }) {

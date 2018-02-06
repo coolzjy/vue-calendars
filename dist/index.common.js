@@ -38,10 +38,18 @@ var mixin = {
       var pending = ref$1._pending;
       var current = date.getTime();
 
-      return Object.assign({
+      var result = {
         disabled: !enabled
-      }, getClass('selected', current, selected),
-        getClass('pending', current, pending))
+      };[
+        getClass('selected', current, selected),
+        getClass('pending', current, pending)
+      ].forEach(function (obj) {
+        for (var key in obj) {
+          result[key] = obj[key];
+        }
+      });
+
+      return result
     },
 
     enter: function enter (ref) {
@@ -71,7 +79,7 @@ var mixin = {
       }
     }
   }
-};
+}
 
 var ONE_DAY = 3600 * 24 * 1000;
 var ONE_WEEK = 7 * ONE_DAY;
@@ -247,7 +255,7 @@ var Day = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm.
       }
     }
   }
-};
+}
 
 function mmdd (date) {
   var mm = date.getMonth() + 1;
@@ -329,7 +337,7 @@ var Week = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm
       }
     }
   }
-};
+}
 
 var Month = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('table',{staticClass:"vc__calendar-month"},[_c('tr',[_c('th',{staticClass:"vc__title",attrs:{"colspan":"4"}},[_c('div',[_vm._v(_vm._s(_vm.y)+" 年")])])]),_vm._v(" "),_vm._l((_vm.calendar),function(row){return _c('tr',_vm._l((row),function(month){return _c('td',{staticClass:"vc__month",class:_vm.getClass(month),on:{"mouseenter":function($event){_vm.enter(month);},"mouseleave":function($event){_vm.leave(month);},"click":function($event){_vm.click(month);}}},[_c('div',[_vm._v(" "+_vm._s(month.text)+" 月 ")])])}))})],2)},staticRenderFns: [],
   name: 'month-calendar',
@@ -400,7 +408,7 @@ var Month = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_v
       }
     }
   }
-};
+}
 
 exports.Day = Day;
 exports.Week = Week;

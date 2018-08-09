@@ -1,5 +1,5 @@
 {
-  "name": "vue-calendars",
+  "name": "@cool_zjy/vue-calendars",
   "version": "0.0.1",
   "description": "Multifunctional calendar component for Vue",
   "keywords": "Vue calendar datepicker",
